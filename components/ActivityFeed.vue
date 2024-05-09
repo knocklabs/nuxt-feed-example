@@ -3,7 +3,6 @@ import { Inbox } from "lucide-vue-next";
 import Knock from "@knocklabs/client";
 const runtimeConfig = useRuntimeConfig();
 const knockClient = new Knock(runtimeConfig.public.knockPublicApiKey);
-console.log(runtimeConfig.public.knockPublicApiKey);
 knockClient.authenticate(runtimeConfig.public.knockUserId);
 const knockFeed = knockClient.feeds.initialize(
   runtimeConfig.public.knockFeedChannelId,
@@ -23,7 +22,7 @@ const feedItems = computed(() => {
 const archivedItems = computed(() => {
   return feed.value.items.filter((item) => item.archived_at);
 });
-knockFeed.on("items.received.realtime", ({ items }) => {
+knockFeed.on("items.received.*", ({ items }) => {
   feed.value = knockFeed.getState();
 });
 
@@ -31,7 +30,6 @@ knockFeed.on("items.*", () => {
   console.log("calling items.*");
   feed.value = knockFeed.getState();
 });
-console.log(feed);
 </script>
 <template>
   <Tabs defaultValue="inbox" class="w-[600px]">
@@ -75,14 +73,21 @@ console.log(feed);
           Archive all
         </Button>
       </div>
-      <FeedItemCard
-        v-if="feedItems.length > 0"
-        v-for="item in feedItems"
-        :key="item.id"
-        :feedItem="item"
-        :knockFeed="knockFeed"
-      >
-      </FeedItemCard>
+      <div v-if="feedItems.length > 0">
+        <FeedItemCard
+          v-for="item in feedItems"
+          :key="item.id"
+          :feedItem="item"
+          :knockFeed="knockFeed"
+        >
+        </FeedItemCard>
+        <Button
+          variant="outline"
+          class="w-full ml-2 mt-6"
+          @click="knockFeed.fetchNextPage()"
+          >Load Next Page</Button
+        >
+      </div>
 
       <div
         class="flex flex-col items-center my-12 py-12 bg-slate-50 rounded-md"
