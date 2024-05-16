@@ -1,75 +1,39 @@
-# Nuxt 3 Minimal Starter
+# Nuxt & Vue Feed Example
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+![notion-style feed example](./images/activity-feed.png)
 
-## Setup
+## Getting Started
 
-Make sure to install the dependencies:
+This is a custom activity feed modeled after Notion and built using the [Knock JavaScript SDK](https://docs.knock.app/sdks/javascript/quick-start). It's purpose is to show you how to build custom feed implementations using other UI libraries or your own design system. This example uses Nuxt, Vue, and [shadcn/vue](https://www.shadcn-vue.com/).
+
+To clone the repository locally, run this command:
 
 ```bash
-# npm
-npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
+git clone https://github.com/knocklabs/notion-feed-example.git
 ```
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
+Then create a new `.env.local` file from the sample with this command:
 
 ```bash
-# npm
+cp .env.sample .env.local
+```
+
+To use this example, you'll need [an account on Knock](https://dashboard.knock.app/), as well as an in-app feed channel with a workflow that produces in-app feed messages.
+
+You'll also need:
+
+- A public API key for the Knock environment (set as NEXT_PUBLIC_KNOCK_PUBLIC_API_KEY)
+- The channel ID for the in-app feed (set as NEXT_PUBLIC_KNOCK_FEED_CHANNEL_ID)
+- A Knock user ID (set as NEXT_PUBLIC_KNOCK_USER_ID)
+
+Once you've added those values and environment variables, you can run the project locally on `http://localhost:3000`:
+
+```bash
 npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
 
-## Production
+## Tutorials
 
-Build the application for production:
+You can reference the following resources as you get started. We created blog posts and videos for creating both the base feed experience and integrating toasts.
 
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm run preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+### Create a Notion-style feed
