@@ -9,7 +9,7 @@ This is a custom activity feed modeled after Notion and built using the [Knock J
 To clone the repository locally, run this command:
 
 ```bash
-git clone https://github.com/knocklabs/notion-feed-example.git
+git clone https://github.com/knocklabs/nuxt-feed-example.git
 ```
 
 Then create a new `.env` file from the sample with this command:
