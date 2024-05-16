@@ -12,10 +12,10 @@ To clone the repository locally, run this command:
 git clone https://github.com/knocklabs/notion-feed-example.git
 ```
 
-Then create a new `.env.local` file from the sample with this command:
+Then create a new `.env` file from the sample with this command:
 
 ```bash
-cp .env.sample .env.local
+cp .env.sample .env
 ```
 
 To use this example, you'll need [an account on Knock](https://dashboard.knock.app/), as well as an in-app feed channel with a workflow that produces in-app feed messages.
