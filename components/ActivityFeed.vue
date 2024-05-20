@@ -1,9 +1,13 @@
 <script setup>
 import { Inbox } from "lucide-vue-next";
 import Knock from "@knocklabs/client";
+import { useToast } from "@/components/ui/toast/use-toast";
+const { toast } = useToast();
 const runtimeConfig = useRuntimeConfig();
 const knockClient = new Knock(runtimeConfig.public.knockPublicApiKey);
-knockClient.authenticate(runtimeConfig.public.knockUserId);
+knockClient.authenticate(runtimeConfig.public.knockUserId, undefined, {
+  logLevel: "debug",
+});
 const knockFeed = knockClient.feeds.initialize(
   runtimeConfig.public.knockFeedChannelId,
   {
@@ -15,6 +19,7 @@ const feed = ref({});
 await knockFeed.fetch();
 const feedState = knockFeed.getState();
 feed.value = feedState;
+knockFeed.listenForUpdates();
 
 const feedItems = computed(() => {
   return feed.value.items.filter((item) => !item.archived_at);
@@ -27,7 +32,23 @@ knockFeed.on("items.received.*", ({ items }) => {
 });
 
 knockFeed.on("items.*", () => {
-  console.log("calling items.*");
+  feed.value = knockFeed.getState();
+});
+knockFeed.on("items.received.realtime", ({ items }) => {
+  items.forEach((item) => {
+    console.log(item);
+    if (item.data && item.data.showToast) {
+      toast({
+        title: `📨 New feed item at ${new Date(
+          item.inserted_at
+        ).toLocaleString()}`,
+        description: "Snap! This real-time feed is mind-blowing 🤯",
+      });
+    }
+  });
+});
+
+knockFeed.on("items.*", () => {
   feed.value = knockFeed.getState();
 });
 </script>
@@ -57,23 +78,23 @@ knockFeed.on("items.*", () => {
       </Dialog>
     </TabsList>
     <TabsContent value="inbox">
-      <div class="my-6 flex">
-        <Button
-          variant="outline"
-          class="w-full mr-2"
-          @click="knockFeed.markAllAsRead()"
-        >
-          Mark all as read
-        </Button>
-        <Button
-          variant="outline"
-          class="w-full ml-2"
-          @click="knockFeed.markAllAsArchived()"
-        >
-          Archive all
-        </Button>
-      </div>
       <div v-if="feedItems.length > 0">
+        <div class="my-6 flex">
+          <Button
+            variant="outline"
+            class="w-full mr-2"
+            @click="knockFeed.markAllAsRead()"
+          >
+            Mark all as read
+          </Button>
+          <Button
+            variant="outline"
+            class="w-full ml-2"
+            @click="knockFeed.markAllAsArchived()"
+          >
+            Archive all
+          </Button>
+        </div>
         <FeedItemCard
           v-for="item in feedItems"
           :key="item.id"
@@ -90,13 +111,11 @@ knockFeed.on("items.*", () => {
       </div>
 
       <div
-        class="flex flex-col items-center my-12 py-12 bg-slate-50 rounded-md"
-        v-if="feed.items.length < 0"
+        class="flex flex-col items-center content-center my-12 py-12 bg-slate-50 rounded-md"
+        v-if="!feedItems || feedItems.length === 0"
       >
-        <div>
-          <Inbox class="w-16 h-16"></Inbox>
-          <p class="mt-6">You&apos;re all caught up</p>
-        </div>
+        <Inbox class="w-16 h-16"></Inbox>
+        <p class="mt-6">You&apos;re all caught up</p>
       </div>
     </TabsContent>
     <TabsContent value="archived">
