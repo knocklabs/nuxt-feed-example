@@ -47,10 +47,6 @@ knockFeed.on("items.received.realtime", ({ items }) => {
     }
   });
 });
-
-knockFeed.on("items.*", () => {
-  feed.value = knockFeed.getState();
-});
 </script>
 <template>
   <Tabs defaultValue="inbox" class="w-[600px]">
