@@ -1,6 +1,6 @@
 # Nuxt & Vue Feed Example
 
-![notion-style feed example](./images/activity-feed.png)
+![notion-style feed example](./images/feed-image.png)
 
 ## Getting Started
 
