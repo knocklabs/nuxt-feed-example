@@ -36,4 +36,12 @@ npm run dev
 
 You can reference the following resources as you get started. We created blog posts and videos for creating both the base feed experience and integrating toasts.
 
-### Create a Notion-style feed
+### Create an activity feed
+
+[✍️ Read the step-by-step tutorial](https://knock.app/blog/how-to-build-an-in-app-notification-feed-with-nuxt-and-vue)
+[📹 Watch the video](https://youtu.be/lMVnYHy8HdY)
+
+### Add real-time toasts
+
+[✍️ Read the step-by-step tutorial](https://knock.app/blog/adding-realtime-toast-notifications-in-nuxt-and-vuejs)
+[📹 Watch the video](https://youtu.be/kU6Fea3QxEc)
